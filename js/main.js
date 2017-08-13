@@ -9,8 +9,11 @@ var db = [
 ];
 
 (function Avatars(db){
+  //init function
     this.init = function(){
+        //run these functions on init
         this.generateList();
+        this.enterUser();
     };
 
     this.generateList = function(){
@@ -32,9 +35,41 @@ var db = [
             template += '</div>';
 
         }
+        //the contents of the html page
         parent.innerHTML = "";
         //("beforebegin","afterbegin","beforeend","afterend")
         parent.insertAdjacentHTML("afterbegin",template);
+    };
+
+    this.enterUser = function(){
+
+        function grabUser(){
+            //grab the values
+            var name = document.querySelector('#user_name').value;
+            var email  = document.querySelector('#user_email').value;
+            var age = document.querySelector('#user_age').value;
+
+            //reset form in textfield after clicked submit
+            document.querySelector('#myForm').reset();
+
+            //adding the name,email,age values into array
+            db.push({name:name,email:email,age:age});
+
+            //since we have new db, just run the generate list function again
+            generateList();
+        }
+
+        //click event listener
+        document.querySelector("#myForm").addEventListener("submit", function(event){
+            //stops default page behavior from sending data elsewhere
+            event.preventDefault();
+
+            //run grabUser function
+            grabUser();
+
+        });
+
+
     };
 
     this.init();
